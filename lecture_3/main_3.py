@@ -3,6 +3,7 @@ including adding students, recording their grades,
 and generating reports on their performance."""
 
 import statistics
+from typing import List, Optional, TypedDict
 
 
 MENU_TEXT = """ --- Student Grade Analyzer ---
@@ -14,16 +15,31 @@ MENU_TEXT = """ --- Student Grade Analyzer ---
 """
 
 
-def get_student_by_name(students, name):
-    """Retrieve a student record by name."""
+class Student(TypedDict):
+    name: str
+    grades: List[int]
+
+
+def get_student_by_name(students: List[Student], name: str) -> Optional[Student]:
+    """
+    Retrieve a student record by name.
+    Args:
+        students (list): List of student records.
+        name (str): Name of the student to find.
+    Returns:
+        dict: The student record if found, else None."""
     for student in students:
         if student["name"] == name:
             return student
     return None
 
 
-def add_new_student(students):
-    """Add a new student to the records."""
+def add_new_student(students: List[Student]) -> None:
+    """
+    Add a new student to the records.
+    Args:
+        students (list): List of student records.
+    """
     name = input("Enter student name: ").strip()
     if not name:
         print("Name cannot be empty.")
@@ -35,8 +51,12 @@ def add_new_student(students):
         students.append({"name": name, "grades": []})
 
 
-def add_grades_for_student(students):
-    """Add grades for an existing student."""
+def add_grades_for_student(students: List[Student]) -> None:
+    """
+    Add grades for an existing student.
+    Args:
+        students (list): List of student records.
+    """
     name = input("Enter student name: ").strip()
     if not name:
         print("Name cannot be empty.")
@@ -52,18 +72,22 @@ def add_grades_for_student(students):
         if grade.lower() == "done":
             break
         try:
-            grade = int(grade)
-            if grade < 0 or grade > 100:
+            grade_val = int(grade)
+            if grade_val < 0 or grade_val > 100:
                 print("Grade must be between 0 and 100.")
                 continue
-            student["grades"].append(grade)
+            student["grades"].append(grade_val)
         except ValueError:
             print("Invalid input. Please enter a number.")
             continue
 
 
-def show_report_all_students(students):
-    """Generate and display a report for all students."""
+def show_report_all_students(students: List[Student]) -> None:
+    """
+    Generate and display a report for all students.
+    Args:
+        students (list): List of student records.
+    """
     print("--- Student Report ---")
     if not students:
         print("No students are in list.")
@@ -71,6 +95,7 @@ def show_report_all_students(students):
 
     students_avg_list = []
     for student in students:
+        avg: float | str = "N/A"
         try:
             avg = sum(student["grades"]) / len(student["grades"])
             students_avg_list.append(avg)
@@ -96,8 +121,12 @@ Overall Average: {overall_avg:.1f}
         print("There are no grades in the list.")
 
 
-def find_top_performer(students):
-    """Search for the student with the highest average grade."""
+def find_top_performer(students: List[Student]) -> None:
+    """
+    Search for the student with the highest average grade.
+    Args:
+        students (list): List of student records.
+    """
     if not students:
         print("No students are in list.")
         return
