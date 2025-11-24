@@ -6,13 +6,12 @@ import statistics
 from typing import List, Optional, TypedDict
 
 
-MENU_TEXT = """ --- Student Grade Analyzer ---
+MENU_TEXT = """--- Student Grade Analyzer ---
 1. Add a new Student
 2. Add grades for student
 3. Show report (all students)
 4. Find top performer
-5. Exit
-"""
+5. Exit"""
 
 
 class Student(TypedDict):
@@ -111,12 +110,12 @@ def show_report_all_students(students: List[Student]) -> None:
         max_avg = max(students_avg_list)
         min_avg = min(students_avg_list)
         overall_avg = statistics.mean(students_avg_list)
-        print("-" * 26, end="\n")
-        print(f"""
+        print("-" * 26)
+        print(f"""\
 Max Average: {max_avg:.1f}
 Min Average: {min_avg:.1f}
-Overall Average: {overall_avg:.1f}
-        """)
+Overall Average: {overall_avg:.1f}\
+""")
     else:
         print("There are no grades in the list.")
 
@@ -179,6 +178,7 @@ def main():
         else:
             print("Exiting program.")
             break
+        print()
 
 
 if __name__ == "__main__":
