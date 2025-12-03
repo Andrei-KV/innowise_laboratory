@@ -1,0 +1,40 @@
+repos:
+  # 1. Common Hooks for File Cleanup and Checks (Unchanged)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  # 2. Ruff: Formatting, Import Sorting, and Linting (Replaces Black and Isort)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.5 # Using your version for Ruff
+    hooks:
+      # Ruff-Format: Replaces Black. Runs first because it handles code formatting.
+      - id: ruff-format
+        name: ruff (formatter)
+        files: \.py$
+        args: [] # The --in-place argument is not needed, Ruff-format does this by default
+
+      # Ruff: Linter. Replaces Flake8 and Isort. Finds stylistic errors (e.g., E302/E501)
+      - id: ruff
+        name: ruff (linter & autofix)
+        files: \.py$
+        # Uses --fix and --exit-non-zero-on-fix to automatically apply and flag changes
+        args: [--fix, --exit-non-zero-on-fix]
+
+  # 3. MyPy: Static Type Checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2 # Using your version for MyPy
+    hooks:
+      - id: mypy
+        name: mypy (type checks)
+        language_version: python3
+        args: [--ignore-missing-imports]
+        files: \.py$
+
+# Default Configuration
+default_language_version:
+  python: python3
