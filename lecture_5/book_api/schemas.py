@@ -55,11 +55,11 @@ class BookAdd(BookBase):
         errors = []
 
         # Check if title is missing or None
-        if not data.get("title"):
+        if data.get("title") is None:
             errors.append("Field 'title' is required")
 
         # Check if author is missing or None
-        if not data.get("author"):
+        if data.get("author") is None:
             errors.append("Field 'author' is required")
 
         if errors:

@@ -30,7 +30,7 @@ class DataBaseContextManager:
 
 
 # Dependency to get DB session
-async def get_session():
+def get_session():
     with DataBaseContextManager() as db:
         yield db
 
@@ -50,6 +50,7 @@ async def lifespan(app: FastAPI):
     create_db()
     yield
     # Shutdown code
+    engine.dispose()
 
 
 # Create FastAPI app instance
@@ -69,7 +70,7 @@ API endpoint definitions for Book API.
     summary="Add new book",
     response_description="Yes, it's done",
 )
-async def add_book(book: schemas.BookAdd, session: SessionDep) -> schemas.BookResponse:
+def add_book(book: schemas.BookAdd, session: SessionDep) -> schemas.BookResponse:
     """
     Add new book: \n
     **title**: str (required) \n
@@ -101,7 +102,7 @@ async def add_book(book: schemas.BookAdd, session: SessionDep) -> schemas.BookRe
     summary="Get all books with pagination",
     response_description="Yes, it's done",
 )
-async def read_books(
+def read_books(
     session: SessionDep,
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
@@ -123,7 +124,7 @@ async def read_books(
     summary="Search books by title, or author, or year",
     response_description="Yes, it's done",
 )
-async def search_books(
+def search_books(
     session: SessionDep,
     title: str | None = Query(None),
     author: str | None = Query(None),
@@ -164,7 +165,7 @@ async def search_books(
     summary="Delete book by ID",
     response_description="Yes, it's done",
 )
-async def delete_book(book_id: int, session: SessionDep):
+def delete_book(book_id: int, session: SessionDep):
     """
     Delete book by ID
     """
@@ -190,7 +191,7 @@ async def delete_book(book_id: int, session: SessionDep):
     summary="Update book by ID",
     response_description="Yes, it's done",
 )
-async def update_book(
+def update_book(
     book_id: int, book: schemas.BookUpdate, session: SessionDep
 ) -> schemas.BookResponse:
     """
