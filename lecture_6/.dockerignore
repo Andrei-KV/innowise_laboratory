@@ -1,0 +1,7 @@
+__pycache__
+*.pyc
+.git
+.env
+.pytest_cache
+test_book_api.py
+test_books.db
