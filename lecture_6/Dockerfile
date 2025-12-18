@@ -36,7 +36,7 @@ EXPOSE 8000
 
 # Setup an app user so the container doesn't run as the root user
 # Rules for user to add files
-RUN useradd -m app && chown -R app:app /app
-USER app
+RUN useradd -m userapp && chown -R userapp:userapp /app
+USER userapp
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
